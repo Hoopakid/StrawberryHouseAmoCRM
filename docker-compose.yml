@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  bot_strawberry:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python main.py
+    depends_on:
+      - celery_worker_strawberry
+      - celery_beat_strawberry
+
+  celery_worker_strawberry:
+    build:
+      context: .
+    command: celery -A tasks worker --loglevel=INFO
+    depends_on:
+      - redis_strawberry
+
+  celery_beat_strawberry:
+    build:
+      context: .
+    command: celery -A tasks beat --loglevel=INFO
+    depends_on:
+      - redis_strawberry
+
+  redis_strawberry:
+    container_name: redis_strawberry
+    image: redis:latest
