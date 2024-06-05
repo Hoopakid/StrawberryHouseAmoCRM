@@ -35,7 +35,7 @@ def send_message_to_user():
     url = f'https://api.telegram.org/bot{BOT_TOKEN}'
     fetch = fetch_xlsx_data_and_save()
     if fetch == True:
-        yesterday = (datetime.now() - timedelta(days=352)).date()
+        yesterday = (datetime.now() - timedelta(days=366)).date()
         for chat_id in chat_ids:
             with open('calls.xlsx', 'rb') as photo:
                 requests.post(url + '/sendDocument',
@@ -44,4 +44,3 @@ def send_message_to_user():
         return True
     else:
         return False
-
